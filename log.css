@@ -1,0 +1,144 @@
+body
+{
+	/*background: url("rs.jpg");*/
+	/*background-size: cover;*/
+	/*background-repeat: no-repeat;*/
+	margin: 0;
+}
+
+input
+{
+	width:70%;
+	outline: none;
+	padding: 10px 41px;
+	border: 1px #aaa solid;
+	font-size: 15px;
+	background: #fff;
+	display: block;
+	margin: 20px auto;
+}
+
+#login
+{
+	background:#19b1ca;
+	color: #fff;
+	border:none;
+}
+
+#form
+{
+	width: 30%;
+	height: 400px;
+	background: rgba(0,0,0,0.2);
+	box-shadow: 5px 4px 43px #000;
+	position: fixed;
+	top: 150px;
+	left: 35%;
+}
+
+#overlay
+{
+	background-image: url('tag2.jpg');
+	background-size: cover; 
+	background-position: center center;
+	position: relative;
+	top: 0;
+	bottom: 0;
+	height: 100vh;
+}
+
+form
+{
+	margin: 30px auto;
+	text-align: center;
+	padding-top: 40px;
+}
+
+#emp_form
+{
+	
+}
+
+b
+{
+	font-size: 40px;
+	font-family: calibri;
+	color: black;
+}
+
+a
+{
+	color: #fff;
+}
+
+img
+{
+	display: block;
+	margin: -75px auto 0 auto;
+}
+
+input[type=submit],input[type=reset] {
+    width: 50%;
+    background-color: #000080;
+    color: white;
+    padding: 15px 20px;
+    margin: 5px 100px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+	}
+input[type=text],
+input[type=password]
+{
+	color: #777;
+    font-size: 20px;
+    font-family: calibri;
+    font-style: bold;
+}
+
+.main
+{
+	font-family: arial;
+	color: white;
+	font-size: 30px;
+	/*background-color: #25C6CE;*/
+	background-image: linear-gradient(to right,#04053D,#04053D,#232484,#04053D,#04053D );
+	padding: 10px;
+}
+
+span
+{
+	font-size: 20px;
+	float: right;
+}
+
+a
+{
+	font-family: arial;
+	size: 18px;
+	color:white;
+}
+
+#mid
+{
+	padding-top: 100px;
+}
+
+#pat_reg
+{
+	color: white;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-left: 33px;
+	padding-right: 33px;
+	font-size: 20px;
+	background-image: linear-gradient(to right,#04053D,#04053D,#232484,#04053D,#04053D );
+}
+
+#emp_reg
+{
+	color: white;
+	padding: 20px;
+	font-size: 20px;
+	background-image: linear-gradient(to right,#04053D,#04053D,#232484,#04053D,#04053D );
+}
