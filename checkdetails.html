@@ -18,17 +18,19 @@
 		<form >
 			<label>Patient ID</label>
 			<input type="text" name="pid">
-			<button id="psub">Submit</button><br><br>
-			<label>Doctor ID</label>
-			<input type="text" name="docid">
-			<button id="dsub">Submit</button><br><br>
-			<label>Nurse ID</label>
-			<input type="text" name="nurse_id">
-			<button id="nsub">Submit</button>
+			<input type="submit"><br><br>
 		</form>
+		<form action="info_doctor.php" method="GET">
+			<label>Doctor ID</label>
+			<input type="text" name="doc_id">
+			<input type="submit"><br><br>
+		</form>
+		<form action="info_nurse.php", method="GET">
+			<label>Nurse ID</label>
+			<input type="text" name="nur_id">
+			<input type="submit">
+		</form>
+		
 	</div>
-
-	
-
 </body>
 </html>

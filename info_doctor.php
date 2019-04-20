@@ -26,6 +26,10 @@ EOT;
 
 			$ret = pg_query($db, $query);
 			$docinfo = pg_fetch_assoc($ret);
+			if(!$docinfo) {
+				die("Could not find info");
+			}
+
 
 			$query = <<< EOT
 SELECT * from doctor_assigned equi join patient ON pid=patient_id WHERE doc_id = '{$_GET["doc_id"]}';
