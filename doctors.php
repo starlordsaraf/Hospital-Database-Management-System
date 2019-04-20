@@ -26,7 +26,7 @@
             	require('dbinfo.php');
 
             	$query = <<< EOT
-SELECT * FROM employee natural join department WHERE emp_type='doc';
+SELECT * FROM doctor natural join employee natural join department WHERE emp_type='doc';
 EOT;
 				$ret = pg_query($db, $query);
 				
@@ -44,7 +44,13 @@ EOT;
 				while ($row = pg_fetch_assoc($ret)) {
 					echo "<tr>";
 					foreach($row as $key => $val) {
-						echo "<td>$val</td>";
+						echo <<< EOT
+						<td>
+							<a href='info_doctor.php?doc_id={$row["doc_id"]}' style="color:blue">
+							$val
+							</a>
+						</td>
+EOT;
 					}
 					echo "</tr>";
 				}
