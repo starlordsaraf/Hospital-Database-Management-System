@@ -117,7 +117,7 @@ EOT;
                 echo "<br>Room Info:<br>";
                 echo "Room_ID: {$roominfo["room_id"]} <br>";
                 echo "Room Type: {$roominfo["room_type"]} <br>";
-                echo "Room Cost: {$roominfo["room_cost"]} <br>";
+                echo "Room Cost/day: {$roominfo["room_cost"]} <br>";
 
             }
 
@@ -204,7 +204,32 @@ EOT;
             SELECT (d_discharge - d_arrival)*room_cost as room_total from in_patient natural join room WHERE pid = 'PA001';
             SELECT other_charges from bill WHERE pid = 'PA001';
             */
+
+            $medcost = getMonVal($db, "SELECT sum(med_cost*qty)::numeric FROM takes natural join medicine WHERE patient_id = '{$patinfo["pid"]}';");
+            $testcost = getMonVal($db, "SELECT sum(test_cost)::numeric FROM has natural join test WHERE pid = '{$patinfo["pid"]}';");
+            $concharge = getMonVal($db, "SELECT sum(consultn)::numeric FROM (SELECT * FROM doctor_assigned natural join doctor WHERE patient_id = '{$patinfo["pid"]}') as x natural join employee;");
+            $roomcharge = getMonVal($db, "SELECT (d_discharge - d_arrival)*room_cost::numeric as room_total from in_patient natural join room WHERE pid = '{$patinfo["pid"]}';");
+            $othercharge = getMonVal($db, "SELECT other_charges::numeric from bill WHERE pid = '{$patinfo["pid"]}';");
+            $totalcharge = $medcost + $testcost + $concharge + $roomcharge + $othercharge;
+
+            echo "<br><br>";
+            echo "Medicine costs: $medcost<br>";
+            echo "Test(s) costs: $testcost<br>";
+            echo "Doctor(s) consultation charges: $concharge<br>";
+            echo "Room charges: $roomcharge<br>";
+            echo "Other charges: $othercharge<br>";
+            echo "Bill total: $totalcharge<br>";
         }
+
+        function getMonVal($db, $query)
+        {
+            $ret = pg_query($db, $query);
+            $val = pg_fetch_row($ret);
+            // var_dump($val);
+            return floatval($val[0]);
+        }
+
+        
     ?>
 </body>
 </html>
