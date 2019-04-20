@@ -52,7 +52,7 @@ img
 }
 
 
-a
+a[class="navi"]
 {
 	font-family: arial;
 	size: 10px;

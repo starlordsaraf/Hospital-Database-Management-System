@@ -10,7 +10,7 @@
 		<span>
 			<a href="login.html" class="navi">Admin Log In</a>&nbsp;|&nbsp;
 			<a href="index.html" class="navi">Home</a>&nbsp;|&nbsp;
-			<a href="doctors.html" class="navi">Our Doctors</a>&nbsp;|&nbsp;
+			<a href="doctors.php" class="navi">Our Doctors</a>&nbsp;|&nbsp;
 			<a href="contactus.html" class="navi">Contact Us</a>&nbsp;
 		</span>
 	</div>
@@ -62,7 +62,7 @@ EOT;
 					$pat = $patinfo[$i];
 					echo <<< EOT
 					<tr>
-						<td>{$pat["pid"]}</td>
+						<td><a href='info_patient.php?pat_id={$pat["pid"]}'>{$pat["pid"]}</a></td>
 						<td>{$pat["pname"]}</td>
 					</tr>
 EOT;

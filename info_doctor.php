@@ -70,7 +70,7 @@ EOT;
 					$pat = $patinfo[$i];
 					echo <<< EOT
 					<tr>
-						<td>{$pat["patient_id"]}</td>
+						<td><a href='info_patient.php?pat_id={$pat["patient_id"]}'>{$pat["patient_id"]}</a></td>
 						<td>{$pat["pname"]}</td>
 						<td>{$pat["ptype"]}</td>
 					</tr>

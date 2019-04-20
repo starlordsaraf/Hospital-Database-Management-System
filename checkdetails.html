@@ -10,14 +10,14 @@
 		<span>
 			<a href="login.html" class="navi">Admin Log In</a>&nbsp;|&nbsp;
 			<a href="index.html" class="navi">Home</a>&nbsp;|&nbsp;
-			<a href="doctors.html" class="navi">Our Doctors</a>&nbsp;|&nbsp;
+			<a href="doctors.php" class="navi">Our Doctors</a>&nbsp;|&nbsp;
 			<a href="contactus.html" class="navi">Contact Us</a>&nbsp;
 		</span>
 	</div>
 	<div id="detail" align="center">
-		<form >
+		<form action="info_patient.php" method="GET">
 			<label>Patient ID</label>
-			<input type="text" name="pid">
+			<input type="text" name="pat_id">
 			<input type="submit"><br><br>
 		</form>
 		<form action="info_doctor.php" method="GET">
