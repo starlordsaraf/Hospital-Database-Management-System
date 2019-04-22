@@ -10,7 +10,7 @@
 		<span>
 			<a href="login.html" class="navi">Admin Log In</a>&nbsp;|&nbsp;
 			<a href="index.html" class="navi">Home</a>&nbsp;|&nbsp;
-			<a href="doctors.html" class="navi">Our Doctors</a>&nbsp;|&nbsp;
+			<a href="doctors.php" class="navi">Our Doctors</a>&nbsp;|&nbsp;
 			<a href="contactus.html" class="navi">Contact Us</a>&nbsp;
 		</span>
 	</div>
@@ -55,7 +55,7 @@ EOT;
 			echo "Phone number: {$docinfo["phno"]} <br>";
 			echo "Qualifications: {$docinfo["qual"]} <br>";
 
-			if(count($patinfo) > 0) {
+			if($patinfo && count($patinfo) > 0) {
 				echo "<br><br>Patient(s) being treated by {$docinfo["ename"]}:";
 
 				echo "<table border='1'>";

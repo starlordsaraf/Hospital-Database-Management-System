@@ -9,6 +9,8 @@
 	<div class="main">&nbsp;&nbsp;&nbsp;STAR HOSPITAL
 		<span>
 			<a href="index.html" class="navi">Home</a>&nbsp;|&nbsp;
+			<a href="medicines.php" class="navi">Medicines</a>&nbsp;|&nbsp;
+			<a href="tests.php" class="navi">Tests</a>&nbsp;|&nbsp;
 			<a href="checkdetails.html" class="navi">Check Details</a>&nbsp;|&nbsp;
 			<a href="contactus.html" class="navi">Contact Us </a>&nbsp;
 		</span>
@@ -81,48 +83,55 @@
 		$srno="$ans[count]"+1;
 		$empid='EM0'."$srno";
 		//echo "$empid";
-		if(null==="$_POST[leavedate]")
+		if(isset($_POST["name"]))
 		{
-			$query="INSERT INTO employee (empid,ename,gender,joindate,dob,phno,salary,leave_date,emp_type,deptid) VALUES ('$empid','$_POST[name]','$_POST[gender]','$_POST[joindate]','$_POST[dob]','$_POST[phno]','$_POST[salary]','$_POST[leavedate]','$_POST[emp_type]','$_POST[deptid]')";
-			$result=pg_query($db,$query);
-			echo"RECORD ADDED of non-existent employee!!";
+			if(null==="$_POST[leavedate]")
+			{
+				$query="INSERT INTO employee (empid,ename,gender,joindate,dob,phno,salary,leave_date,emp_type,deptid) VALUES ('$empid','$_POST[name]','$_POST[gender]','$_POST[joindate]','$_POST[dob]','$_POST[phno]','$_POST[salary]','$_POST[leavedate]','$_POST[emp_type]','$_POST[deptid]')";
+				$result=pg_query($db,$query);
+				echo"RECORD ADDED of non-existent employee!!";
+			}
+			else
+			{
+				$query="INSERT INTO employee (empid,ename,gender,joindate,dob,phno,salary,emp_type,deptid) VALUES ('$empid','$_POST[name]','$_POST[gender]','$_POST[joindate]','$_POST[dob]','$_POST[phno]','$_POST[salary]','$_POST[emp_type]','$_POST[deptid]')";
+				$result=pg_query($db,$query);
+				echo"RECORD ADDED for existing employee!!";
+	
+	
+				if("$_POST[emp_type]"==="doc")
+				{
+					$d_count="SELECT count(*) from doctor";
+					$d_c=pg_query($db,$d_count);
+					$d_ans=pg_fetch_assoc($d_c);
+					$d_srno="$d_ans[count]"+1;
+					$docid='DOC'."$d_srno";
+					//echo "$docid";
+					$d_query="INSERT INTO doctor VALUES ('$docid','$_POST[qual]',$_POST[confee],'$empid')";
+					$d_result=pg_query($db,$d_query);
+					echo"DOCTOR ADDED!!";
+					header("Location: info_doctor.php?doc_id=$docid");
+
+				}
+	
+	
+				if("$_POST[emp_type]"==="nur")
+				{
+					$n_count="SELECT count(*) from nurse";
+					$n_c=pg_query($db,$n_count);
+					$n_ans=pg_fetch_assoc($n_c);
+					$n_srno="$n_ans[count]"+1;
+					$nurid='NUR'."$n_srno";
+					//echo "$nurid";
+					$n_query="INSERT INTO nurse (nurseid,empid) VALUES ('$nurid','$empid')";
+					$n_result=pg_query($db,$n_query);
+					echo"NURSE ADDED!!";
+					header("Location: info_nurse.php?nur_id=$nurid");
+				}
+	
+			}
 		}
-
-	else
-	{
-		$query="INSERT INTO employee (empid,ename,gender,joindate,dob,phno,salary,emp_type,deptid) VALUES ('$empid','$_POST[name]','$_POST[gender]','$_POST[joindate]','$_POST[dob]','$_POST[phno]','$_POST[salary]','$_POST[emp_type]','$_POST[deptid]')";
-		$result=pg_query($db,$query);
-		echo"RECORD ADDED for existing employee!!";
-
-
-	if("$_POST[emp_type]"==="doc")
-		{
-			$d_count="SELECT count(*) from doctor";
-			$d_c=pg_query($db,$d_count);
-			$d_ans=pg_fetch_assoc($d_c);
-			$d_srno="$d_ans[count]"+1;
-			$docid='DOC'."$d_srno";
-			//echo "$docid";
-			$d_query="INSERT INTO doctor VALUES ('$docid','$_POST[qual]',$_POST[confee],'$empid')";
-			$d_result=pg_query($db,$d_query);
-			echo"DOCTOR ADDED!!";
-		}
-
-
-	if("$_POST[emp_type]"==="nur")
-		{
-			$n_count="SELECT count(*) from nurse";
-			$n_c=pg_query($db,$n_count);
-			$n_ans=pg_fetch_assoc($n_c);
-			$n_srno="$n_ans[count]"+1;
-			$nurid='NUR'."$n_srno";
-			//echo "$nurid";
-			$n_query="INSERT INTO nurse (nurseid,empid) VALUES ('$nurid','$empid')";
-			$n_result=pg_query($db,$n_query);
-			echo"NURSE ADDED!!";
-		}
-
-	}
+	
+			
 
 
 

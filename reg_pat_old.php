@@ -25,90 +25,53 @@
 			<label>
 				Patient Name:
 				<input type="text" name="name">
-				<br><br>
-			</label>
-
+			</label><br><br>
 			<label>
 				Gender:
-				<label>
-					<input type="radio" name="gender" value="m" checked>Male
-				</label>
-				<label>
-					<input type="radio" name="gender" value="f">Female
-				</label>
-				<br><br>
-			</label>
-
+				<input type="text" name="gender" placeholder="m/f">
+			</label><br><br>
 			<label>
 				Date Of Birth:
 				<input type="text" name="dob" placeholder="mm-dd-yyyy">
-				<br><br>
-			</label>
+			</label><br><br>
 
 			<label>
 				Phone Number:
-				<input type="tel" name="phno">
-				<br><br>
-			</label>
-
+				<input type="Number" name="phno">
+			</label><br><br>
+			Address:
 			<label>
-				Address:
 				<input type="text" name="addr">
-				<br><br>
-			</label>
+			</label><br><br>
 
 			<label>
 				Disease:
 				<input type="text" name="disease">
-				<br><br>
-			</label>
+			</label><br><br>
 
 			<label>
 				Patient Type:
-				<label onclick="showOPD();">
-					<input type="radio" name="p_type" value="opd" checked>OPD
-				</label>
-				<label onclick="showIPD();">
-					<input type="radio" name="p_type" value="ipd">IPD
-				</label>
-				<br><br>
-			</label>
+				<input type="text" name="p_type" placeholder="opd/ipd">
+			</label><br><br>
 
 			<label>
 				Arrival Date:
 				<input type="text" name="arrdate" placeholder="mm-dd-yyyy">
-				<br><br>
-			</label>
+			</label><br><br>
 
-			<label class="IPD">
+			<label>
 				Discharge Date:
 				<input type="text" name="disdate" placeholder="mm-dd-yyyy">
-				<br><br>
-			</label>
+			</label><br><br>
 
-			<label class="IPD">
+			<label>
 				Room Number:
-				<!-- <input type="text" name="room"> -->
-
-				<select name="room">
-					<?php
-						$query = "SELECT room_id, room_type FROM room;";
-						$ret = pg_query($db, $query);
-
-						$rooms = pg_fetch_all($ret);
-
-						for ($i=0; $i < count($rooms); $i++) { 
-							$rinfo = $rooms[$i];
-							echo "<option value='{$rinfo["room_id"]}'>{$rinfo["room_id"]} - {$rinfo["room_type"]} </option>";
-						}
-					?>
-				</select>
-				<br><br>
-			</label>
+				<input type="text" name="room">
+			</label><br><br>
 
 			<label>
 				Doctors treating the patient:
-				<select name="doctors[]" multiple>
+				<select name="doctors" multiple>
 					<?php
 						$query = "SELECT doc_id, ename FROM doctor natural join employee;";
 						$ret = pg_query($db, $query);
@@ -124,12 +87,11 @@ EOT;
 						}
 					?>
 				</select>
-				<br><br>
-			</label>
+			</label><br><br>
 
-			<label class="IPD">
+			<label>
 				Nurses assisting the patient:
-				<select name="nurses[]" multiple>
+				<select name="nurses" multiple>
 					<?php
 						$query = "SELECT nurseid, ename FROM nurse natural join employee;";
 						$ret = pg_query($db, $query);
@@ -145,8 +107,7 @@ EOT;
 						}
 					?>
 				</select>
-				<br><br>
-			</label>
+			</label><br><br>
 
 			<input type="submit" name="submit">
 		</form>
@@ -162,23 +123,15 @@ EOT;
 		$pid='PA0'."$srno";
 		//echo "$pid";
 
-		if(isset($_POST["submit"]))
+		if(isset($_POST["name"]))
 		{
 			var_dump($_POST);
 			echo "<br>";
 			$query="INSERT INTO patient VALUES ('$pid','$_POST[phno]'
 			,'$_POST[name]','$_POST[dob]','$_POST[addr]','$_POST[gender]','$_POST[p_type]')";
+	
 			$result=pg_query($db,$query);
 			echo"RECORD ADDED for patient!!";
-
-			for ($i=0; $i < count($_POST["doctors"]); $i++) { 
-				$docid = $_POST["doctors"][$i];
-				echo "$docid<br>";
-
-				$doc_query = "INSERT INTO doctor_assigned VALUES('$docid', '$pid');";
-				pg_query($db, $doc_query);
-				echo "$doc_query<br>";
-			}
 	
 			if("$_POST[p_type]"==="opd")
 			{
@@ -191,7 +144,6 @@ EOT;
 	
 				$o_query="INSERT INTO out_patient VALUES('$opd_id','$_POST[arrdate]','$_POST[disease]','$pid')";
 				$o_result=pg_query($db,$o_query);
-
 				echo"RECORD ADDED for OPD patient $pid";
 	
 			}
@@ -206,46 +158,14 @@ EOT;
 				$ipd_id='IPD0'."$i_srno";
 	
 				$i_query="INSERT INTO in_patient VALUES('$ipd_id','$_POST[disease]','$_POST[arrdate]','$_POST[disdate]','$pid','$_POST[room]')";
-				echo "$i_query<br>";
 				$i_result=pg_query($db,$i_query);
 				echo"RECORD ADDED for IPD patient $pid";
-
-				for ($i=0; $i < count($_POST["nurses"]); $i++) { 
-					$nurid = $_POST["nurses"][$i];
-					$nur_query = "INSERT INTO nurse_assigned VALUES('$nurid', '$ipd_id');";
-					pg_query($db, $nur_query);
-					echo "$nur_query<br>";
-				}
 	
 			}
 
-			header("Location: info_patient.php?pat_id=$pid");
+			// header("Location: info_patient.php?pat_id=$pid");
 		}
 
 	?>
-
-	<script>
-
-		var IPDElements = document.querySelectorAll(".IPD");
-
-		//based on what's clicked on patient type, display the apt fields
-		function showOPD() {
-			//hide nurses, discharge date, room number
-			console.log("opd");
-			IPDElements.forEach(element => {
-				element.setAttribute("hidden", "true");
-			});
-		}
-
-		function showIPD() {
-			console.log("ipd");
-			IPDElements.forEach(element => {
-				element.removeAttribute("hidden");
-			});
-		}
-
-		showOPD();
-
-	</script>
 </body>
 </html>

@@ -8,9 +8,12 @@
 <body background="tag2.jpg">
 	<div class="main">&nbsp;&nbsp;&nbsp;STAR HOSPITAL
 		<span>
-			<a href="login.html" class="navi">Admin Log In</a>&nbsp;|&nbsp;
+            <a href="reg_pat.php" class="navi">Register Patient</a>&nbsp;|&nbsp;
+			<a href="reg_emp.php" class="navi">Register Employee</a>&nbsp;|&nbsp;
+			<a href="medicines.php" class="navi">Medicines</a>&nbsp;|&nbsp;
+			<a href="tests.php" class="navi">Tests</a>&nbsp;|&nbsp;
 			<a href="index.html" class="navi">Home</a>&nbsp;|&nbsp;
-			<a href="doctors.html" class="navi">Our Doctors</a>&nbsp;|&nbsp;
+			<a href="doctors.php" class="navi">Our Doctors</a>&nbsp;|&nbsp;
 			<a href="contactus.html" class="navi">Contact Us</a>&nbsp;
 		</span>
 	</div>
@@ -66,7 +69,7 @@ SELECT * FROM relative WHERE patient_ipd_id = '{$inpatinfo["ipd_id"]}';
 EOT;
                 $ret = pg_query($db, $query);
                 $relinfo = pg_fetch_all($ret);
-                if(count($relinfo) > 0) {
+                if($relinfo && count($relinfo) > 0) {
                     echo "<br>Relative(s) info: <br>";
                     for ($i=0; $i < count($relinfo); $i++) { 
                         $rel = $relinfo[$i];
@@ -84,7 +87,7 @@ SELECT nurse_id, ename FROM (SELECT patient_ipd_id, nurse_id, empid FROM nurse_a
 EOT;
                 $ret = pg_query($db, $query);
                 $nurinfo = pg_fetch_all($ret);
-                if(count($nurinfo) > 0) {
+                if($nurinfo && count($nurinfo) > 0) {
                     echo "<br>Nurses assisting {$patinfo["pname"]} <br>";
                     
                     echo "<table border='1'>";
@@ -137,7 +140,7 @@ EOT;
                     echo "Medicine name: {$med["med_name"]} <br>";
                     echo "Medicine date: {$med["m_date"]} <br>";
                     echo "Medicine quantity: {$med["qty"]} <br>";
-                    echo "Medicine cost: {$med["med_cost"]} <br>";
+                    echo "Medicine cost: {$med["med_cost"]} <br><br>";
 
                 }
             }

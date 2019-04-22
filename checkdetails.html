@@ -8,7 +8,10 @@
 <body background="tag2.jpg">
 	<div class="main">&nbsp;&nbsp;&nbsp;STAR HOSPITAL
 		<span>
-			<a href="login.html" class="navi">Admin Log In</a>&nbsp;|&nbsp;
+			<a href="reg_pat.php" class="navi">Register Patient</a>&nbsp;|&nbsp;
+			<a href="reg_emp.php" class="navi">Register Employee</a>&nbsp;|&nbsp;
+			<a href="medicines.php" class="navi">Medicines</a>&nbsp;|&nbsp;
+			<a href="tests.php" class="navi">Tests</a>&nbsp;|&nbsp;
 			<a href="index.html" class="navi">Home</a>&nbsp;|&nbsp;
 			<a href="doctors.php" class="navi">Our Doctors</a>&nbsp;|&nbsp;
 			<a href="contactus.html" class="navi">Contact Us</a>&nbsp;
