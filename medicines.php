@@ -31,13 +31,16 @@ require('dbinfo.php');
 			<label>
 				Medicine Name:
 				<select name="med">
-					<option>Sinarest</option>
-					<option>Citzin</option>
-					<option>Asprin</option>
-					<option>Wararin</option>
-					<option>Insulin-A</option>
-					<option>Glynase</option>
-					<option>Paracetamol</option>
+					<?php
+						$query = "SELECT med_name FROM medicine;";
+						$ret = pg_query($db, $query);
+						$meds = pg_fetch_all_columns($ret);
+
+						for ($i=0; $i < count($meds); $i++) { 
+							$medname = $meds[$i];
+							echo "<option>$medname</option>";
+						}
+					?>
 				</select>
 			</label><br><br>
 

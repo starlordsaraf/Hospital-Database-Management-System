@@ -32,15 +32,19 @@ require('dbinfo.php');
 			<label>
 				Test Name:
 				<select name="test">
-					<option>Troponin Test</option>
-					<option>CK-MB Test</option>
-					<option>Serum Myoglobin Test</option>
-					<option>Random Blood Sugar Test</option>
-					<option>Fasting Blood Sugar Test</option>
-					<option>Oral Glucose Tolerence Test</option>
+					<?php
+						$query = "SELECT test_name FROM test;";
+						$ret = pg_query($db, $query);
+						$tests = pg_fetch_all_columns($ret);
+
+						for ($i=0; $i < count($tests); $i++) { 
+							$testname = $tests[$i];
+							echo "<option>$testname</option>";
+						}
+					?>
 				</select>
 			</label><br><br>
-
+			
 			<label>
 				Test Date:
 				<input type="text" name="tdate" placeholder="mm-dd-yyyy">
