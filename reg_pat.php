@@ -24,7 +24,7 @@
 		<form id="emp_form" method="POST">
 			<label>
 				Patient Name:
-				<input type="text" name="name">
+				<input type="text" name="name" required>
 				<br><br>
 			</label>
 
@@ -41,25 +41,25 @@
 
 			<label>
 				Date Of Birth:
-				<input type="text" name="dob" placeholder="mm-dd-yyyy">
+				<input type="text" name="dob" placeholder="mm-dd-yyyy" required>
 				<br><br>
 			</label>
 
 			<label>
 				Phone Number:
-				<input type="tel" name="phno">
+				<input type="tel" name="phno" required>
 				<br><br>
 			</label>
 
 			<label>
 				Address:
-				<input type="text" name="addr">
+				<input type="text" name="addr" required>
 				<br><br>
 			</label>
 
 			<label>
 				Disease:
-				<input type="text" name="disease">
+				<input type="text" name="disease" required>
 				<br><br>
 			</label>
 
@@ -76,13 +76,13 @@
 
 			<label>
 				Arrival Date:
-				<input type="text" name="arrdate" placeholder="mm-dd-yyyy">
+				<input type="text" name="arrdate" placeholder="mm-dd-yyyy" required>
 				<br><br>
 			</label>
 
 			<label class="IPD">
 				Discharge Date:
-				<input type="text" name="disdate" placeholder="mm-dd-yyyy">
+				<input type="text" name="disdate" placeholder="mm-dd-yyyy" class="required-IPD">
 				<br><br>
 			</label>
 
@@ -90,7 +90,7 @@
 				Room Number:
 				<!-- <input type="text" name="room"> -->
 
-				<select name="room">
+				<select name="room" class="required-IPD">
 					<?php
 						$query = "SELECT room_id, room_type FROM room;";
 						$ret = pg_query($db, $query);
@@ -108,7 +108,7 @@
 
 			<label>
 				Doctors treating the patient:
-				<select name="doctors[]" multiple>
+				<select name="doctors[]" multiple required>
 					<?php
 						$query = "SELECT doc_id, ename FROM doctor natural join employee;";
 						$ret = pg_query($db, $query);
@@ -129,7 +129,7 @@ EOT;
 
 			<label class="IPD">
 				Nurses assisting the patient:
-				<select name="nurses[]" multiple>
+				<select name="nurses[]" multiple class="required-IPD">
 					<?php
 						$query = "SELECT nurseid, ename FROM nurse natural join employee;";
 						$ret = pg_query($db, $query);
@@ -164,8 +164,8 @@ EOT;
 
 		if(isset($_POST["submit"]))
 		{
-			var_dump($_POST);
-			echo "<br>";
+			// var_dump($_POST);
+			// echo "<br>";
 			$query="INSERT INTO patient VALUES ('$pid','$_POST[phno]'
 			,'$_POST[name]','$_POST[dob]','$_POST[addr]','$_POST[gender]','$_POST[p_type]')";
 			$result=pg_query($db,$query);
@@ -173,11 +173,11 @@ EOT;
 
 			for ($i=0; $i < count($_POST["doctors"]); $i++) { 
 				$docid = $_POST["doctors"][$i];
-				echo "$docid<br>";
+				// echo "$docid<br>";
 
 				$doc_query = "INSERT INTO doctor_assigned VALUES('$docid', '$pid');";
 				pg_query($db, $doc_query);
-				echo "$doc_query<br>";
+				// echo "$doc_query<br>";
 			}
 	
 			if("$_POST[p_type]"==="opd")
@@ -192,7 +192,7 @@ EOT;
 				$o_query="INSERT INTO out_patient VALUES('$opd_id','$_POST[arrdate]','$_POST[disease]','$pid')";
 				$o_result=pg_query($db,$o_query);
 
-				echo"RECORD ADDED for OPD patient $pid";
+				// echo"RECORD ADDED for OPD patient $pid";
 	
 			}
 	
@@ -206,9 +206,9 @@ EOT;
 				$ipd_id='IPD0'."$i_srno";
 	
 				$i_query="INSERT INTO in_patient VALUES('$ipd_id','$_POST[disease]','$_POST[arrdate]','$_POST[disdate]','$pid','$_POST[room]')";
-				echo "$i_query<br>";
+				// echo "$i_query<br>";
 				$i_result=pg_query($db,$i_query);
-				echo"RECORD ADDED for IPD patient $pid";
+				// echo"RECORD ADDED for IPD patient $pid";
 
 				for ($i=0; $i < count($_POST["nurses"]); $i++) { 
 					$nurid = $_POST["nurses"][$i];
@@ -227,6 +227,7 @@ EOT;
 	<script>
 
 		var IPDElements = document.querySelectorAll(".IPD");
+		var IPDReq = document.querySelectorAll(".required-IPD");
 
 		//based on what's clicked on patient type, display the apt fields
 		function showOPD() {
@@ -235,12 +236,20 @@ EOT;
 			IPDElements.forEach(element => {
 				element.setAttribute("hidden", "true");
 			});
+
+			IPDReq.forEach(element => {
+				element.removeAttribute("required");
+			});
 		}
 
 		function showIPD() {
 			console.log("ipd");
 			IPDElements.forEach(element => {
 				element.removeAttribute("hidden");
+			});
+
+			IPDReq.forEach(element => {
+				element.setAttribute("required", "true");
 			});
 		}
 

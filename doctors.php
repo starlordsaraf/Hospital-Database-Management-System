@@ -29,7 +29,7 @@
             	require('dbinfo.php');
 
             	$query = <<< EOT
-SELECT * FROM doctor natural join employee natural join department WHERE emp_type='doc';
+SELECT * FROM doctor natural join employee natural join department WHERE emp_type='doc' order by doc_id;
 EOT;
 				$ret = pg_query($db, $query);
 				

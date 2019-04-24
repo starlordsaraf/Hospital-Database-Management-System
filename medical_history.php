@@ -35,7 +35,7 @@
 	if(isset($_POST['submit']))
 	{
 	$pname="$_POST[name]";
-	$query="SELECT pid,pname,ptype FROM patient WHERE pname LIKE '{$pname}%'";
+	$query="SELECT pid,pname,ptype FROM patient WHERE pname LIKE '%{$pname}%'";
 	$ret=pg_query($db,$query);
 	$patinfo=pg_fetch_all($ret);
 	if(!$patinfo) {
@@ -57,7 +57,7 @@ EOT;
 					$pat = $patinfo[$i];
 					echo <<< EOT
 					<tr>
-						<td><a href='info_patient.php?pat_id={$pat["pid"]}'>{$pat["pid"]}</a></td>
+						<td><a style='color:blue;' href='info_patient.php?pat_id={$pat["pid"]}'>{$pat["pid"]}</a></td>
 						<td>{$pat["pname"]}</td>
 						<td>{$pat["ptype"]}</td>
 					</tr>
